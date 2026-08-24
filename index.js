@@ -22,7 +22,6 @@ const EMOJI_NAMES = [
   "4_Dkingdom_a_yx_03",
   "4_Dkingdom_a_yx_04",
   "4_Dkingdom_a_yx_05",
-  "4_Dkingdom_a_yx_06",
   "4_Dkingdom_a_yx_07",
 ];
 
@@ -30,8 +29,8 @@ const sleep = (ms) =>
   new Promise((resolve) => setTimeout(resolve, ms));
 
 client.once("ready", () => {
-  console.log(`✅ ${client.user.tag} 로그인 완료`);
-  console.log(`✅ 자동 리액션 채널: ${CHANNEL_ID}`);
+  console.log(` ${client.user.tag} 로그인 완료`);
+  console.log(` 자동 리액션 채널: ${CHANNEL_ID}`);
 });
 
 client.on("messageCreate", async (message) => {
@@ -55,18 +54,18 @@ client.on("messageCreate", async (message) => {
       );
 
       if (!emoji) {
-        console.log(`❌ 이모지 없음: ${emojiName}`);
+        console.log(`이모지 없음: ${emojiName}`);
         continue;
       }
 
       await message.react(emoji);
 
-      console.log(`✅ 리액션 추가: ${emojiName}`);
+      console.log(`이모지 추가: ${emojiName}`);
 
       await sleep(500);
     } catch (error) {
       console.error(
-        `❌ ${emojiName} 리액션 실패:`,
+        ` ${emojiName} 리액션 실패:`,
         error
       );
     }
