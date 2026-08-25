@@ -37,12 +37,6 @@ const EVENT_CHANNEL_ID = "1540975412799217695";
 // 뮤지션 추천 이미지
 const MUSICIAN_CHANNEL_ID = "1541025942410100816";
 
-// 역선권 요청
-const REVERSE_REQUEST_CHANNEL_ID = "1540975354653573211";
-
-// 역할 요청
-const ROLE_REQUEST_CHANNEL_ID = "1540975329873633420";
-
 // 내전 요청
 const CIVIL_WAR_CHANNEL_ID = "1540976276582694952";
 
@@ -91,7 +85,6 @@ const EMOJI_NAMES = [
   "4_Dkingdom_a_yx_07",
 ];
 
-
 const sleep = (ms) =>
   new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -108,8 +101,6 @@ client.once("ready", () => {
   console.log(`뉴페이스 채널: ${NEWFACE_CHANNEL_ID}`);
   console.log(`이벤트 추천 채널: ${EVENT_CHANNEL_ID}`);
   console.log(`뮤지션 추천 채널: ${MUSICIAN_CHANNEL_ID}`);
-  console.log(`역선권 요청 채널: ${REVERSE_REQUEST_CHANNEL_ID}`);
-  console.log(`역할 요청 채널: ${ROLE_REQUEST_CHANNEL_ID}`);
   console.log(`내전 요청 채널: ${CIVIL_WAR_CHANNEL_ID}`);
   console.log(`후기 작성 채널: ${REVIEW_CHANNEL_ID}`);
 });
@@ -157,7 +148,6 @@ client.on("messageCreate", async (message) => {
           `이모지 추가: ${emojiName}`
         );
 
-        // 0.5초 간격
         await sleep(500);
 
       } catch (error) {
@@ -299,7 +289,6 @@ client.on("messageCreate", async (message) => {
 
   // ====================================================
   // 5. 뮤지션 추천 이미지
-  // musician.png
   // ====================================================
 
   if (message.channel.id === MUSICIAN_CHANNEL_ID) {
@@ -330,89 +319,7 @@ client.on("messageCreate", async (message) => {
 
 
   // ====================================================
-  // 6. 역선권 요청 양식
-  // 실제 역할 멘션 없음
-  // ====================================================
-
-  if (
-    message.channel.id ===
-    REVERSE_REQUEST_CHANNEL_ID
-  ) {
-
-    try {
-
-      await message.channel.send({
-        content:
-          "## 역선권 요청 양식\n" +
-
-          "```" +
-          "역선권 요청 갯수 :  \n" +
-          "사유 : \n" +
-          "인증 사진 : ( /채팅랭크 , /음성랭크 )\n\n" +
-
-          "@ෆ．☘️＇ 처리해 주세요．⌢⌢ 멘션\n" +
-          "```",
-      });
-
-      console.log(
-        "역선권 요청 양식 전송 완료"
-      );
-
-    } catch (error) {
-
-      console.error(
-        "역선권 요청 양식 전송 실패:",
-        error
-      );
-
-    }
-
-    return;
-  }
-
-
-  // ====================================================
-  // 7. 역할 요청 양식
-  // 실제 역할 멘션 없음
-  // ====================================================
-
-  if (
-    message.channel.id ===
-    ROLE_REQUEST_CHANNEL_ID
-  ) {
-
-    try {
-
-      await message.channel.send({
-        content:
-          "## 역할 요청 양식\n" +
-
-          "> Ex) 케이크 들개 주세요 ! or\n" +
-
-          "> `@︵︵  케이크 들개  ﹐ 🍰` 주세요 !\n" +
-
-          "> **`@ෆ．☘️＇ 처리해 주세요．⌢⌢ `**",
-      });
-
-      console.log(
-        "역할 요청 양식 전송 완료"
-      );
-
-    } catch (error) {
-
-      console.error(
-        "역할 요청 양식 전송 실패:",
-        error
-      );
-
-    }
-
-    return;
-  }
-
-
-  // ====================================================
-  // 8. 내전 요청 양식
+  // 6. 내전 요청 양식
   // ====================================================
 
   if (
@@ -461,7 +368,7 @@ client.on("messageCreate", async (message) => {
 
 
   // ====================================================
-  // 9. 후기 작성 안내
+  // 7. 후기 작성 안내
   // ====================================================
 
   if (
@@ -477,7 +384,7 @@ client.on("messageCreate", async (message) => {
 
           "♡ : 후기는 24시간 이내로 작성해주세요\n" +
 
-          "♡ :후기 미작성 시 선착 시 제외\n" +
+          "♡ : 후기 미작성 시 선착 시 제외\n" +
 
           "♡ : 후기 작성시엔 제작물을 필수로 올려야 합니다.",
       });
