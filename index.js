@@ -69,17 +69,18 @@ const MUSICIAN_IMAGE = path.join(
 
 
 // ======================================================
-// 자동 리액션 이모지
+// 자동 리액션 이모지 ID
+// 00, 01, 02, 03, 04, 05, 07
 // ======================================================
 
-const EMOJI_NAMES = [
-  "5_Dkingdom_ayx_00",
-  "5_Dkingdom_ayx_01",
-  "5_Dkingdom_ayx_02",
-  "5_Dkingdom_ayx_03",
-  "5_Dkingdom_ayx_04",
-  "5_Dkingdom_ayx_05",
-  "5_Dkingdom_ayx_07",
+const EMOJI_IDS = [
+  "1541090452504191096", // 00
+  "1541090429565673524", // 01
+  "1541090471261249616", // 02
+  "1541090490420830238", // 03
+  "1541090503456727040", // 04
+  "1541090522674892800", // 05
+  "1541090572247240805", // 07
 ];
 
 
@@ -100,7 +101,7 @@ async function deleteOldBotMessages(channel) {
       limit: 50,
     });
 
-    // 이 봇이 보낸 메시지만 찾기
+    // 현재 봇이 보낸 메시지만 찾기
     const botMessages = messages.filter(
       (msg) => msg.author.id === client.user.id
     );
@@ -109,14 +110,17 @@ async function deleteOldBotMessages(channel) {
     for (const [, botMessage] of botMessages) {
 
       try {
+
         await botMessage.delete();
+
       } catch (error) {
+
         console.error(
           "기존 안내 메시지 삭제 실패:",
           error
         );
-      }
 
+      }
     }
 
   } catch (error) {
@@ -158,9 +162,9 @@ client.on("messageCreate", async (message) => {
   // DM 제외
   if (!message.guild) return;
 
-  // 봇 메시지 제외
-  // 이 봇 자신의 메시지만 무시
-if (message.author.id === client.user.id) return;
+  // 이 봇 자신의 메시지만 제외
+  // 다른 봇이 올린 메시지에는 작동 가능
+  if (message.author.id === client.user.id) return;
 
 
   // ====================================================
@@ -173,40 +177,27 @@ if (message.author.id === client.user.id) return;
       `리액션 메시지 감지: ${message.author.tag}`
     );
 
-    for (const emojiName of EMOJI_NAMES) {
+    for (const emojiId of EMOJI_IDS) {
 
       try {
 
-        const emoji = message.guild.emojis.cache.find(
-          (e) => e.name === emojiName
-        );
-
-        if (!emoji) {
-
-          console.log(
-            `이모지 없음: ${emojiName}`
-          );
-
-          continue;
-        }
-
-        await message.react(emoji);
+        await message.react(emojiId);
 
         console.log(
-          `이모지 추가: ${emojiName}`
+          `이모지 추가 성공: ${emojiId}`
         );
 
+        // 0.5초 간격
         await sleep(500);
 
       } catch (error) {
 
         console.error(
-          `${emojiName} 리액션 실패:`,
+          `이모지 리액션 실패: ${emojiId}`,
           error
         );
 
       }
-
     }
 
     return;
