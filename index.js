@@ -17,7 +17,7 @@ const client = new Client({
 const REACTION_CHANNEL_ID = "1541004495709012012";
 
 // 안내문 + 이미지 보낼 채널
-const IMAGE_CHANNEL_ID = "1540975513420693585";
+const IMAGE_CHANNEL_ID = "1540974453754830878";
 
 const EMOJI_NAMES = [
   "4_Dkingdom_a_yx_00",
