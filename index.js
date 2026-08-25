@@ -159,7 +159,8 @@ client.on("messageCreate", async (message) => {
   if (!message.guild) return;
 
   // 봇 메시지 제외
-  if (message.author.bot) return;
+  // 이 봇 자신의 메시지만 무시
+if (message.author.id === client.user.id) return;
 
 
   // ====================================================
