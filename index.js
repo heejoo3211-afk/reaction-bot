@@ -73,13 +73,13 @@ const MUSICIAN_IMAGE = path.join(
 // ======================================================
 
 const EMOJI_NAMES = [
-  "4_Dkingdom_a_yx_00",
-  "4_Dkingdom_a_yx_01",
-  "4_Dkingdom_a_yx_02",
-  "4_Dkingdom_a_yx_03",
-  "4_Dkingdom_a_yx_04",
-  "4_Dkingdom_a_yx_05",
-  "4_Dkingdom_a_yx_07",
+  "5_Dkingdom_ayx_00",
+  "5_Dkingdom_ayx_01",
+  "5_Dkingdom_ayx_02",
+  "5_Dkingdom_ayx_03",
+  "5_Dkingdom_ayx_04",
+  "5_Dkingdom_ayx_05",
+  "5_Dkingdom_ayx_07",
 ];
 
 
