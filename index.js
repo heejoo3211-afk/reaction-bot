@@ -96,17 +96,14 @@ async function deleteOldBotMessages(channel) {
 
   try {
 
-    // 최근 메시지 50개 확인
     const messages = await channel.messages.fetch({
       limit: 50,
     });
 
-    // 현재 봇이 보낸 메시지만 찾기
     const botMessages = messages.filter(
       (msg) => msg.author.id === client.user.id
     );
 
-    // 기존 봇 안내 전부 삭제
     for (const [, botMessage] of botMessages) {
 
       try {
@@ -162,8 +159,7 @@ client.on("messageCreate", async (message) => {
   // DM 제외
   if (!message.guild) return;
 
-  // 이 봇 자신의 메시지만 제외
-  // 다른 봇이 올린 메시지에는 작동 가능
+  // 자기 자신의 메시지만 제외
   if (message.author.id === client.user.id) return;
 
 
@@ -187,7 +183,6 @@ client.on("messageCreate", async (message) => {
           `이모지 추가 성공: ${emojiId}`
         );
 
-        // 0.5초 간격
         await sleep(500);
 
       } catch (error) {
@@ -205,18 +200,17 @@ client.on("messageCreate", async (message) => {
 
 
   // ====================================================
-  // 2. 서버 추천 안내
+  // 2. 서버 추천 안내 + 이미지
+  // 답장 방식
   // ====================================================
 
   if (message.channel.id === RECOMMEND_CHANNEL_ID) {
 
     try {
 
-      // 기존 봇 안내 삭제
       await deleteOldBotMessages(message.channel);
 
-      // 새 안내 전송
-      await message.channel.send({
+      await message.reply({
 
         content:
           "`/추천` 명령어를 사용하여 링크에 접속 후 서버를 추천하신뒤,\n" +
@@ -227,16 +221,20 @@ client.on("messageCreate", async (message) => {
           RECOMMEND_IMAGE,
         ],
 
+        allowedMentions: {
+          repliedUser: false,
+        },
+
       });
 
       console.log(
-        "추천 안내 재전송 완료"
+        "추천 안내 답장 완료"
       );
 
     } catch (error) {
 
       console.error(
-        "추천 안내 전송 실패:",
+        "추천 안내 답장 실패:",
         error
       );
 
@@ -248,6 +246,7 @@ client.on("messageCreate", async (message) => {
 
   // ====================================================
   // 3. 뉴페이스 제거 기준
+  // 답장 방식
   // ====================================================
 
   if (message.channel.id === NEWFACE_CHANNEL_ID) {
@@ -256,7 +255,7 @@ client.on("messageCreate", async (message) => {
 
       await deleteOldBotMessages(message.channel);
 
-      await message.channel.send({
+      await message.reply({
 
         content:
           "## 뉴페이스 제거 기준 ♡\n\n" +
@@ -270,16 +269,20 @@ client.on("messageCreate", async (message) => {
 
           `랭크 확인은 <#${RANK_CHANNEL_ID}> 에서 사용해 주세요.`,
 
+        allowedMentions: {
+          repliedUser: false,
+        },
+
       });
 
       console.log(
-        "뉴페이스 안내 재전송 완료"
+        "뉴페이스 안내 답장 완료"
       );
 
     } catch (error) {
 
       console.error(
-        "뉴페이스 안내 전송 실패:",
+        "뉴페이스 안내 답장 실패:",
         error
       );
 
@@ -291,6 +294,7 @@ client.on("messageCreate", async (message) => {
 
   // ====================================================
   // 4. 이벤트 추천
+  // 답장 방식
   // ====================================================
 
   if (message.channel.id === EVENT_CHANNEL_ID) {
@@ -299,7 +303,7 @@ client.on("messageCreate", async (message) => {
 
       await deleteOldBotMessages(message.channel);
 
-      await message.channel.send({
+      await message.reply({
 
         content:
           "이 채널은 서버원 여러분께서 원하시는 이벤트를 자유롭게 제안해 주시는 채널입니다.\n\n" +
@@ -317,6 +321,7 @@ client.on("messageCreate", async (message) => {
           `<@&${EVENT_ROLE_ID}> 역할 멘션 필수 !`,
 
         allowedMentions: {
+          repliedUser: false,
           roles: [
             EVENT_ROLE_ID,
           ],
@@ -325,13 +330,13 @@ client.on("messageCreate", async (message) => {
       });
 
       console.log(
-        "이벤트 추천 안내 재전송 완료"
+        "이벤트 추천 안내 답장 완료"
       );
 
     } catch (error) {
 
       console.error(
-        "이벤트 추천 안내 전송 실패:",
+        "이벤트 추천 안내 답장 실패:",
         error
       );
 
@@ -342,7 +347,8 @@ client.on("messageCreate", async (message) => {
 
 
   // ====================================================
-  // 5. 뮤지션 추천
+  // 5. 뮤지션 추천 이미지
+  // 답장 방식
   // ====================================================
 
   if (message.channel.id === MUSICIAN_CHANNEL_ID) {
@@ -351,22 +357,26 @@ client.on("messageCreate", async (message) => {
 
       await deleteOldBotMessages(message.channel);
 
-      await message.channel.send({
+      await message.reply({
 
         files: [
           MUSICIAN_IMAGE,
         ],
 
+        allowedMentions: {
+          repliedUser: false,
+        },
+
       });
 
       console.log(
-        "뮤지션 추천 이미지 재전송 완료"
+        "뮤지션 추천 이미지 답장 완료"
       );
 
     } catch (error) {
 
       console.error(
-        "뮤지션 추천 이미지 전송 실패:",
+        "뮤지션 추천 이미지 답장 실패:",
         error
       );
 
@@ -378,6 +388,7 @@ client.on("messageCreate", async (message) => {
 
   // ====================================================
   // 6. 내전 요청
+  // 답장 방식
   // ====================================================
 
   if (message.channel.id === CIVIL_WAR_CHANNEL_ID) {
@@ -386,7 +397,7 @@ client.on("messageCreate", async (message) => {
 
       await deleteOldBotMessages(message.channel);
 
-      await message.channel.send({
+      await message.reply({
 
         content:
           "## 내전 요청 양식\n" +
@@ -402,6 +413,7 @@ client.on("messageCreate", async (message) => {
           `<@&${CIVIL_WAR_ROLE_ID}>`,
 
         allowedMentions: {
+          repliedUser: false,
           roles: [
             CIVIL_WAR_ROLE_ID,
           ],
@@ -410,13 +422,13 @@ client.on("messageCreate", async (message) => {
       });
 
       console.log(
-        "내전 요청 양식 재전송 완료"
+        "내전 요청 양식 답장 완료"
       );
 
     } catch (error) {
 
       console.error(
-        "내전 요청 양식 전송 실패:",
+        "내전 요청 양식 답장 실패:",
         error
       );
 
@@ -428,6 +440,7 @@ client.on("messageCreate", async (message) => {
 
   // ====================================================
   // 7. 후기 작성
+  // 답장 방식
   // ====================================================
 
   if (message.channel.id === REVIEW_CHANNEL_ID) {
@@ -436,7 +449,7 @@ client.on("messageCreate", async (message) => {
 
       await deleteOldBotMessages(message.channel);
 
-      await message.channel.send({
+      await message.reply({
 
         content:
           "## **<a:5_Dkingdom_ayx_09:1541090599250296883> :: 후기작성 안내사항 :: <a:5_Dkingdom_ayx_09:1541090599250296883> **\n" +
@@ -447,16 +460,20 @@ client.on("messageCreate", async (message) => {
 
           "♡ : 후기 작성시엔 제작물을 필수로 올려야 합니다.",
 
+        allowedMentions: {
+          repliedUser: false,
+        },
+
       });
 
       console.log(
-        "후기 작성 안내 재전송 완료"
+        "후기 작성 안내 답장 완료"
       );
 
     } catch (error) {
 
       console.error(
-        "후기 작성 안내 전송 실패:",
+        "후기 작성 안내 답장 실패:",
         error
       );
 
