@@ -34,9 +34,6 @@ const RANK_CHANNEL_ID = "1540975991554318437";
 // 이벤트 추천
 const EVENT_CHANNEL_ID = "1540975412799217695";
 
-// 뮤지션 추천
-const MUSICIAN_CHANNEL_ID = "1541025942410100816";
-
 // 내전 요청
 const CIVIL_WAR_CHANNEL_ID = "1540976276582694952";
 
@@ -60,11 +57,6 @@ const CIVIL_WAR_ROLE_ID = "1540971383574626325";
 const RECOMMEND_IMAGE = path.join(
   __dirname,
   "recommend.png"
-);
-
-const MUSICIAN_IMAGE = path.join(
-  __dirname,
-  "musician.png"
 );
 
 
@@ -143,7 +135,6 @@ client.once("ready", () => {
   console.log(`추천 채널: ${RECOMMEND_CHANNEL_ID}`);
   console.log(`뉴페이스 채널: ${NEWFACE_CHANNEL_ID}`);
   console.log(`이벤트 추천 채널: ${EVENT_CHANNEL_ID}`);
-  console.log(`뮤지션 추천 채널: ${MUSICIAN_CHANNEL_ID}`);
   console.log(`내전 요청 채널: ${CIVIL_WAR_CHANNEL_ID}`);
   console.log(`후기 작성 채널: ${REVIEW_CHANNEL_ID}`);
 
@@ -347,47 +338,7 @@ client.on("messageCreate", async (message) => {
 
 
   // ====================================================
-  // 5. 뮤지션 추천 이미지
-  // 답장 방식
-  // ====================================================
-
-  if (message.channel.id === MUSICIAN_CHANNEL_ID) {
-
-    try {
-
-      await deleteOldBotMessages(message.channel);
-
-      await message.reply({
-
-        files: [
-          MUSICIAN_IMAGE,
-        ],
-
-        allowedMentions: {
-          repliedUser: false,
-        },
-
-      });
-
-      console.log(
-        "뮤지션 추천 이미지 답장 완료"
-      );
-
-    } catch (error) {
-
-      console.error(
-        "뮤지션 추천 이미지 답장 실패:",
-        error
-      );
-
-    }
-
-    return;
-  }
-
-
-  // ====================================================
-  // 6. 내전 요청
+  // 5. 내전 요청
   // 답장 방식
   // ====================================================
 
@@ -439,7 +390,7 @@ client.on("messageCreate", async (message) => {
 
 
   // ====================================================
-  // 7. 후기 작성
+  // 6. 후기 작성
   // 답장 방식
   // ====================================================
 
